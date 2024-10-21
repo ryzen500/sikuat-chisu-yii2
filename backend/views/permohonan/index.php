@@ -9,7 +9,7 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Tb Permohonan Labs';
+$this->title = 'Permohonan Lab Masuk ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tb-permohonan-lab-index">
@@ -24,11 +24,80 @@ $this->params['breadcrumbs'][] = $this->title;
     'dataProvider' => $dataProvider,
     'filterModel' => null,  // Set this to an instance of the search model if you have filtering
     'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],  // Serial column for row numbers
+         [
+        'header'=>'Nomer',
+        'class' => 'yii\grid\SerialColumn'
+        ],  
+        [
+            'attribute' => 'no_sediaan',
+            'header' => 'Nomor Sediaan',
+            'format' => 'raw',
+            'value' => function ($model) {
+                return Html::encode($model->no_sediaan);  // Customize value if needed
+            },
+        ],
 
-        'id',  // Example column, replace with actual attribute names
-        'no_sediaan',  // Replace with actual attribute names
-        'lokasi_anatomi',  // Replace with actual attribute names
+        [
+            'attribute' => 'lokasi_anatomi',
+            'header' => 'Lokasi Anatomi',
+            'format' => 'raw',
+            'value' => function ($model) {
+                return Html::encode($model->lokasi_anatomi);  // Customize value if needed
+            },
+        ],
+
+
+        [
+            'attribute' => 'tanggal_permohonan',
+            'header' => 'Tanggal Permohonan',
+            'format' => 'raw',
+            'value' => function ($model) {
+                return Html::encode(date('Y-m-d',strtotime($model->tanggal_permohonan)));  // Customize value if needed
+            },
+        ],
+
+
+
+        [
+            'attribute' => 'tanggal_pengambilan',
+            'header' => 'Tanggal Pengambilan',
+            'format' => 'raw',
+            'value' => function ($model) {
+                return Html::encode(date('Y-m-d',strtotime($model->tanggal_pengambilan)));  // Customize value if needed
+            },
+        ],
+
+
+        [
+            'attribute' => 'tanggal_pengiriman',
+            'header' => 'Tanggal Pengiriman',
+            'format' => 'raw',
+            'value' => function ($model) {
+                return Html::encode(date('Y-m-d',strtotime($model->tanggal_pengiriman)));  // Customize value if needed
+            },
+        ],
+
+
+
+        [
+            'attribute' => 'contoh_uji',
+            'header' => 'Alasan Pemeriksaan',
+            'format' => 'raw',
+            'value' => function ($model) {
+                return Html::encode($model->contoh_uji);  // Customize value if needed
+            },
+        ],
+
+
+        [
+            'attribute' => 'jenis_pemeriksaan',
+            'header' => 'Jenis Pemeriksaan',
+            'format' => 'raw',
+            'value' => function ($model) {
+                return Html::encode($model->jenis_pemeriksaan);  // Customize value if needed
+            },
+        ],
+
 
         [
             'class' => 'yii\grid\ActionColumn',

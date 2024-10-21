@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         [
             'attribute' => 'nama_pasien',
-            'header' => 'Tipe Pasien',
+            'header' => 'Nama Pasien',
             'format' => 'raw',
             'value' => function ($model) {
                 $name = !empty($model->nama_pasien) ? $model->nama_pasien : '-';

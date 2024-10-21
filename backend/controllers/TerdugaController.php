@@ -56,6 +56,38 @@ class TerdugaController extends Controller
             'menu' => $menu
         ]);
     }
+
+
+    
+    public function actionSave()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $request = Yii::$app->request->post();
+
+        // Check if an ID is provided
+        $id = Yii::$app->request->post('id');
+
+        // If ID is provided, try to find the existing model, otherwise create a new one
+        if ($id) {
+            $model = TbTerduga::findOne($id);
+            if (!$model) {
+                return ['success' => false, 'message' => 'Record not found'];
+            }
+        } else {
+            $model = new TbTerduga();
+            $model->id = Uuid::uuid4()->toString(); // Generate UUID for new records
+        }
+
+        // Load data and save model
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            kirimTerdugaTB($request['TbTerduga'], $model);
+            return ['success' => true];
+        }
+
+        return ['success' => false, 'errors' => ActiveForm::validate($model)];
+    }
+
 public function actionIndex()
 {
     $query = TbTerduga::find()

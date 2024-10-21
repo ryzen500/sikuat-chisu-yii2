@@ -1,6 +1,9 @@
 <?php
 
 namespace app\models;
+use backend\Concerns\WorkingWithTBModels;
+
+use backend\Contracts\TBInterface;
 
 use Yii;
 
@@ -18,10 +21,12 @@ use Yii;
  * @property string|null $created_at
  * @property string|null $updated_at
  */
-class TbTerduga extends \yii\db\ActiveRecord
+class TbTerduga extends \yii\db\ActiveRecord implements TBInterface
 {
 
     public $jenis_terduga,$jenis_pasien,$nama_pasien;
+
+    use WorkingWithTBModels;
     /**
      * {@inheritdoc}
      */

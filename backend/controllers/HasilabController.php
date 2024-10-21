@@ -152,7 +152,7 @@ class HasilabController extends Controller
             // Load data into the model and save
             if ($model->load($request, '') && $model->save()) {
 
-                kirimHasilLab($request, $model);
+                // kirimHasilLab($request, $model);
 
                 return [
                     'success' => true,

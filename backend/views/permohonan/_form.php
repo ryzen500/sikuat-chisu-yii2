@@ -4,11 +4,15 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\jui\DatePicker;
 use app\models\LokasiPenyakitAnatomi;
+use app\models\TbRujukan;
+
 use app\models\DokterPengirim;
 use app\models\AlasanPemeriksaan;
 use app\models\JenisPemeriksaan;
 use app\models\JenisContohUji;
 
+
+$TbRujukan = TbRujukan::getDataRujukanFaskes();
 $lokasiAnatomiOptions = LokasiPenyakitAnatomi::getValues();
 $dokterPengirimOptions = DokterPengirim::getValues();
 $alasanPemeriksaanOptions = AlasanPemeriksaan::getValues();
@@ -91,12 +95,22 @@ $jenisContohUjiOptions = JenisContohUji::getValues();
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <?= $form->field($model, 'tanggal_pengiriman')->widget(DatePicker::classname(), [
                                 'dateFormat' => 'yyyy-MM-dd',
                                 'options' => ['class' => 'form-control tanggal_pengiriman', 'autocomplete' => 'off'],
                             ])->label('Tanggal Pengiriman Contoh Uji') ?>
                         </div>
+
+
+                        <div class="col-lg-6">
+                            <?=  $form->field($model, 'faskes')->dropDownList($TbRujukan, ['id' => 'lokasi_anatomi'])->label('Pilih faskes') ?>
+                        </div>
+
+                                              
+
+
+
                     </div>
 
                     <div class="float-right mt-3">

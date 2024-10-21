@@ -37,7 +37,7 @@ use Yii;
 class TbPermohonanLab extends \yii\db\ActiveRecord implements TBInterface
 {
     use WorkingWithTBModels;
-    public $alasan_pemeriksaan;
+    public $alasan_pemeriksaan,$faskes;
     /**
      * {@inheritdoc}
      */
@@ -54,7 +54,7 @@ class TbPermohonanLab extends \yii\db\ActiveRecord implements TBInterface
         return [
             [[ 'no_sediaan', 'lokasi_anatomi', 'tanggal_permohonan', 'pengirim', 'tanggal_pengambilan', 'tanggal_pengiriman', 'jenis_pemeriksaan', 'contoh_uji'], 'required'],
             [[ 'alasan','alasan_pemeriksaan', 'satusehat_response'], 'string'],
-            [['tanggal_permohonan', 'tanggal_pengambilan', 'tanggal_pengiriman', 'created_at', 'updated_at'], 'safe'],
+            [['tanggal_permohonan', 'faskes','tanggal_pengambilan', 'tanggal_pengiriman', 'created_at', 'updated_at'], 'safe'],
             [['followup_ke', 'periksa_ulang_ke'], 'default', 'value' => null],
             [['followup_ke', 'periksa_ulang_ke'], 'integer'],
             [['KD_PELAYANAN', 'KD_PASIEN', 'KD_PUSKESMAS'], 'string', 'max' => 20],

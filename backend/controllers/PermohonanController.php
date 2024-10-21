@@ -114,9 +114,13 @@ class PermohonanController extends Controller
         } else {
             $model = new TbPermohonanLab();
             $model->id = Uuid::uuid4()->toString(); // Generate UUID for new records
+            $model->faskes = Uuid::uuid4()->toString(); // Generate UUID for new records
+            
         }
 
         // Load data and save model
+        // echo '<pre>';
+        // var_dump(Yii::$app->request->post());die;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             kirimPermohonanLab($request['TbPermohonanLab'], $model);
             return ['success' => true];
