@@ -3,6 +3,8 @@
 namespace backend\controllers;
 
 use app\models\TbPermohonanLab;
+use app\models\TbTerduga;
+
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -45,6 +47,8 @@ class PermohonansController extends Controller
 
     public function behaviors()
     {
+        Yii::$app->session->set('faskes','100011960');
+
         return [
             'access' => [
                 'class' => AccessControl::class,
@@ -113,7 +117,18 @@ class PermohonansController extends Controller
             }
         } else {
             $model = new TbPermohonanLab();
-            $model->id = Uuid::uuid4()->toString(); // Generate UUID for new records
+            $model->id = Uuid::uuid4()->toString(); // Generate UUID for new records            
+            $model->attributes = $request['TbPermohonanLab'];
+
+            // no_sediaan by terduga 
+            $terdugaData =TbTerduga::find()->where(['id'=> $request['TbPermohonanLab']['ID_KUNJUNGAN']])->asArray()->all();
+        
+            // echo "<pre>";
+            // var_dump($terdugaData[0]['no_sediaan']);die;
+        
+            $model->no_sediaan =$terdugaData[0]['no_sediaan'];
+
+
         }
 
         // Load data and save model

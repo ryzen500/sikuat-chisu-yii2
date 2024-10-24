@@ -126,7 +126,6 @@ class HasilabController extends Controller
         $request['tgl_contoh_uji'] = $model['tgl_contoh_uji'] ?? null;
         $request['kondisi_contoh_uji_id'] = $model['kondisi_contoh_uji_id'] ?? null;
         $request['contoh_uji'] = $model['contoh_uji'] ?? null;
-
         $request['contoh_uji_lain'] = $model['contoh_uji_lain'] ?? null;
         $request['no_reg_hasil'] = !empty($model['no_reg_hasil']) ? $model['no_reg_hasil'] : $model['no_reg_hasil'];
         $request['tanggal_hasil'] = !empty($model['tanggal_hasil']) ? $model['tanggal_hasil'] : $model['tanggal_hasil'];
@@ -152,7 +151,7 @@ class HasilabController extends Controller
             // Load data into the model and save
             if ($model->load($request, '') && $model->save()) {
 
-                // kirimHasilLab($request, $model);
+                kirimHasilLab($request, $model);
 
                 return [
                     'success' => true,

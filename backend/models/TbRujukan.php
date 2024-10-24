@@ -20,6 +20,8 @@ class TbRujukan extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
+     
     public static function tableName()
     {
         return 'tb_rujukan';
@@ -58,17 +60,21 @@ class TbRujukan extends \yii\db\ActiveRecord
 
         public static function getDataRujukanFaskes()
     {
+
+            $condition = Yii::$app->session->get('faskes');
+        // var_dump($condition);die;
         // Assuming you have a table column 'person_id' and 'person_name'
-        $pasienList = self::find()->select(['id', 'nama_asal'])->all();
-        return \yii\helpers\ArrayHelper::map($pasienList, 'id', 'nama_asal');
+        $pasienList = self::find()->select(['satusehat_asal', 'nama_asal'])->where(['satusehat_asal'=>$condition 
+        ])->all();
+        return \yii\helpers\ArrayHelper::map($pasienList, 'satusehat_asal', 'nama_asal');
     }
 
 
         public static function getDataRujukanFaskesTujuan()
     {
         // Assuming you have a table column 'person_id' and 'person_name'
-        $pasienList = self::find()->select(['id_tujuan', 'nama_tujuan'])->all();
-        return \yii\helpers\ArrayHelper::map($pasienList, 'id_tujuan', 'nama_tujuan');
+        $pasienList = self::find()->select(['satusehat_tujuan', 'nama_tujuan'])->all();
+        return \yii\helpers\ArrayHelper::map($pasienList, 'satusehat_tujuan', 'nama_tujuan');
     }
 
 }

@@ -60,7 +60,7 @@ function initConfiguration()
             // null// 'SUOnOVYse8WHvIt9b3i9BhaxA60H',
             null,
             null,
-            'oSs5OMI7muSFd3WHPCZhay7A7hGn'
+            'Ske9QQFjqUunZRHYkGtYeXViTHL8',
             '+07:00'
         )
     );
@@ -120,7 +120,7 @@ function kirimTerdugaTB(array $input, TbTerduga $tbTerduga): bool
 
     $response = $service->sendTerdugaTb($input);
 
-    dump($response);die;
+    // dump($response);die;
     if ($response instanceof SubmitResponse) {
         $service->storeSatuSehat($response, $tbTerduga, [
             'kunjungan' => $kunjungan,
@@ -167,6 +167,7 @@ function kirimPermohonanLab(array $input, TbPermohonanLab $permohonanLabModel): 
         $patient
     );
     $response = $service->sendPermohonanLab($input);
+
 
     if ($response instanceof SubmitResponse) {
         $service->storeSatuSehat($response, $permohonanLabModel, [

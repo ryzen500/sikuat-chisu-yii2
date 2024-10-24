@@ -16,7 +16,10 @@ use Mediator\SatuSehat\Lib\Client\Model\SatuSehatResponse;
 use Mediator\SatuSehat\Lib\Client\Model\SubmitResponse;
 use Mediator\SatuSehat\Lib\Client\Model\TbSuspect;
 use Mediator\SatuSehat\Lib\Client\Profiles\ValidationException;
+use Ramsey\Uuid\Uuid;
+
 use Yii;
+
 
 class MediatorService extends BaseService
 {
@@ -137,7 +140,7 @@ class MediatorService extends BaseService
             $response = json_encode(json_decode($e->getResponse()->getBody()->getContents()), JSON_PRETTY_PRINT);
         }
 
-         // dump($response);
+        //  dump($response);
 
         return $response;
     }
@@ -162,15 +165,15 @@ class MediatorService extends BaseService
 
         $specimentId = 'e0768d3a-57e3-42c0-9c06-61ccd584cc6a';
 
-        $tanggalHasil = parseDateTime(!empty($input['tanggal_hasil_mikroskopis']) ? parseDateTime($input['tanggal_hasil_mikroskopis']) : parseDateTime($input['tanggal_hasil_tcm']));
+        $tanggalHasil = parseDateTime(!empty($input['tanggal_hasil']) ? parseDateTime($input['tanggal_hasil']) : parseDateTime($input['tanggal_hasil']));
 
-        $catatan = !empty($input['catatan_mikroskopis']) ? $input['catatan_mikroskopis'] : $input['catatan_tcm'];
-        $nilai = !empty($input['hasil_mikroskopis']) ? $input['hasil_mikroskopis'] : $input['hasil_tcm'];
+        $catatan = !empty($input['catatan']) ? $input['catatan'] : $input['catatan'];
+        $nilai = !empty($input['hasil']) ? $input['hasil'] : $input['hasil'];
 
         $hasil = $this->form;
         /** dokter pengirim, penerima, pemeriksa */
         $hasil
-            ->setDokterPengirim($input['pengirim'])
+            ->setDokterPengirim('N10000001')
             ->setPenerimaContohUji($input['penerima'])
             ->setDokterPemeriksaLab($input['pemeriksa']);
 
@@ -186,7 +189,7 @@ class MediatorService extends BaseService
 
         $hasil = $this->form
             // ->setPermohonanLabId($permohonanId)
-            ->setFaskesTunjuan('100011961')
+            ->setFaskesTujuan('100011961')
             ->setJenisContohUji($input['contoh_uji'])
             ->setSpesimenId($specimentId, 'specimen_1')
 //            ->setPermohonanLabId($serviceRequestId)
@@ -312,10 +315,11 @@ class MediatorService extends BaseService
             $satusehat = new Satusehat();
 
             // Load the data into the ActiveRecord fields
+            $satusehat->id = Uuid::uuid4()->toString(); // Generate UUID for new records
             $satusehat->resource = $satuSehatResponse->getResourceType();
             $satusehat->resource_id = $satuSehatResponse->getResourceId();
             $satusehat->url = $satuSehatResponse->getLocation();
-            $satusehat->data = $data;
+            $satusehat->data = json_encode($data);
             $satusehat->kunjungan = $input['kunjungan'];
             $satusehat->pasien = $suspectTB->getPersonId();
             $satusehat->faskes = $input['faskes'];
@@ -323,15 +327,21 @@ class MediatorService extends BaseService
             $satusehat->table_id = $model->getModelId();
             $satusehat->episode_of_care_id = $episodeOfCare->getId();
 
-            // var_dump($satusehat);
-            // Validate before saving
-            // if (!$satusehat->validate()) {
-            //     // Log or handle validation errors
-            //     Yii::error('Validation failed: ' . json_encode($satusehat->errors), __METHOD__);
-            //     throw new \Exception('Failed to validate SatuSehat data');
-            // }
 
-            // $satusehat->save();
+            // echo '<pre>';
+            // var_dump($satusehat);
+            // die;
+            // Validate before saving
+            if (!$satusehat->validate()) {
+                echo '<pre>';
+            var_dump($satusehat->getErrors());
+            die;
+                // // Log or handle validation errors
+                // Yii::error('Validation failed: ' . json_encode($satusehat->errors), __METHOD__);
+                // throw new \Exception('Failed to validate SatuSehat data');
+            }
+
+            $satusehat->save(false);
         }
 
         // die;

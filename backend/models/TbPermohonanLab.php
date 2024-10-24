@@ -37,7 +37,7 @@ use Yii;
 class TbPermohonanLab extends \yii\db\ActiveRecord implements TBInterface
 {
     use WorkingWithTBModels;
-    public $alasan_pemeriksaan,$faskes;
+    public $alasan_pemeriksaan;
     /**
      * {@inheritdoc}
      */
@@ -95,4 +95,7 @@ class TbPermohonanLab extends \yii\db\ActiveRecord implements TBInterface
             'updated_at' => 'Updated At',
         ];
     }
+
+
+
 }

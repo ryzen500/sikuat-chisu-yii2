@@ -5,6 +5,7 @@ use yii\helpers\ArrayHelper;
 use yii\jui\DatePicker;
 use app\models\LokasiPenyakitAnatomi;
 use app\models\TbRujukan;
+use app\models\TbTerduga;
 
 use app\models\DokterPengirim;
 use app\models\AlasanPemeriksaan;
@@ -12,6 +13,7 @@ use app\models\JenisPemeriksaan;
 use app\models\JenisContohUji;
 
 
+$terdugaTBOptions = TbTerduga::getDataTerdugaKunjungan();
 $TbRujukan = TbRujukan::getDataRujukanFaskes();
 $lokasiAnatomiOptions = LokasiPenyakitAnatomi::getValues();
 $dokterPengirimOptions = DokterPengirim::getValues();
@@ -53,8 +55,8 @@ $jenisContohUjiOptions = JenisContohUji::getValues();
                     <?php endif; ?>
 
                     <div class="row">
-                        <div class="col-lg-6">
-                            <?= $form->field($model, 'no_sediaan')->textInput(['id' => 'no_sediaan', 'autocomplete' => 'off'])->label('Nomer Persediaan') ?>
+                       <div class="col-lg-6">
+                            <?= $form->field($model, 'ID_KUNJUNGAN')->dropDownList($terdugaTBOptions, ['id' => 'ID_KUNJUNGAN'])->label('Pilih Kunjungan') ?>
                         </div>
                         <div class="col-lg-6">
                             <?= $form->field($model, 'lokasi_anatomi')->dropDownList($lokasiAnatomiOptions, ['id' => 'lokasi_anatomi'])->label('Lokasi Anatomi Penyakit') ?>

@@ -3,6 +3,8 @@
 namespace backend\controllers;
 
 use app\models\TbPermohonanLab;
+use app\models\TbTerduga;
+
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -18,33 +20,11 @@ use yii\filters\AccessControl;
  */
 class PermohonanController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
-    // public function behaviors()
-    // {
-    //     return [
-    //         'access' => [
-    //             'class' => AccessControl::class,
-    //             'rules' => [
-    //                 [
-    //                     'allow' => true,
-    //                     'roles' => ['@'], // Allow authenticated users
-    //                 ],
-    //             ],
-    //         ],
-    //         'verbs' => [
-    //             'class' => VerbFilter::class,
-    //             'actions' => [
-    //                 'delete' => ['POST'], // Restrict DELETE to POST requests
-    //             ],
-    //         ],
-    //     ];
-    // }
-
 
     public function behaviors()
     {
+        Yii::$app->session->set('faskes','100011960');
+
         return [
             'access' => [
                 'class' => AccessControl::class,
@@ -98,6 +78,7 @@ class PermohonanController extends Controller
 
     public function actionSave()
     {
+        
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         $request = Yii::$app->request->post();
@@ -113,14 +94,25 @@ class PermohonanController extends Controller
             }
         } else {
             $model = new TbPermohonanLab();
-            $model->id = Uuid::uuid4()->toString(); // Generate UUID for new records
-            $model->faskes = Uuid::uuid4()->toString(); // Generate UUID for new records
-            
+            $model->id = Uuid::uuid4()->toString(); // Generate UUID for new records            
+            $model->attributes = $request['TbPermohonanLab'];
+
+            // no_sediaan by terduga 
+            $terdugaData =TbTerduga::find()->where(['id'=> $request['TbPermohonanLab']['ID_KUNJUNGAN']])->asArray()->all();
+        
+            // echo "<pre>";
+            // var_dump($terdugaData[0]['no_sediaan']);die;
+        
+            $model->no_sediaan =$terdugaData[0]['no_sediaan'];
+
+
         }
 
         // Load data and save model
         // echo '<pre>';
-        // var_dump(Yii::$app->request->post());die;
+        // var_dump($request['TbPermohonanLab']);die;
+        // echo '<pre>';
+        // var_dump($model->attributes);die;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             kirimPermohonanLab($request['TbPermohonanLab'], $model);
             return ['success' => true];

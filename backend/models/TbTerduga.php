@@ -68,4 +68,13 @@ class TbTerduga extends \yii\db\ActiveRecord implements TBInterface
             'updated_at' => 'Updated At',
         ];
     }
+
+
+
+    public static function getDataTerdugaKunjungan()
+    {
+        // Assuming you have a table column 'person_id' and 'person_name'
+        $pasienList = self::find()->select(['id', 'no_sediaan'])->all();
+        return \yii\helpers\ArrayHelper::map($pasienList, 'id', 'no_sediaan');
+    }
 }
